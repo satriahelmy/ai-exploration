@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "python-ai-api"
+version = "0.1.0"
+description = "A simple sentiment classification API demonstrating a production-style ML serving workflow."
+requires-python = ">=3.11"
+
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+    "scikit-learn==1.8.0",
+    "joblib",
+]
+
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "httpx",
+]
+
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+exclude = ["tests*", "training*", "artifacts*"]
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

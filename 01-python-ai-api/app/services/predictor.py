@@ -2,6 +2,8 @@ from pathlib import Path
 
 import joblib
 
+from app.models import PredictionRequest, PredictionResponse
+
 
 class SentimentPredictor:
     """Load a trained sentiment model and perform predictions."""
@@ -10,16 +12,19 @@ class SentimentPredictor:
         self.model_path = model_path
         self.model = joblib.load(model_path)
 
-    def predict(self, text: str) -> dict[str, str | float]:
-        prediction = self.model.predict([text])[0]
-        probabilities = self.model.predict_proba([text])[0]
+    def predict(
+        self,
+        request: PredictionRequest,
+    ) -> PredictionResponse:
+        prediction = self.model.predict([request.text])[0]
+        probabilities = self.model.predict_proba([request.text])[0]
 
-        confidence = max(probabilities)
+        confidence = float(max(probabilities))
 
-        return {
-            "label": prediction,
-            "confidence": float(confidence),
-        }
+        return PredictionResponse(
+            label=prediction,
+            confidence=confidence,
+        )
 
 
 if __name__ == "__main__":
@@ -28,6 +33,10 @@ if __name__ == "__main__":
 
     predictor = SentimentPredictor(model_path)
 
-    result = predictor.predict("this application is very useful")
+    request = PredictionRequest(
+        text="this application is very useful"
+    )
+
+    result = predictor.predict(request)
 
     print(result)
