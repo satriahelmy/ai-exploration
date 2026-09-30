@@ -32,6 +32,29 @@ A simple machine learning model served as a REST API.
 
 Status: **Completed**
 
+### 02 — LLM Chat API
+
+An LLM-powered chat application built with FastAPI and the OpenAI API.
+
+**Topics explored:**
+
+- LLM API integration
+- messages, roles, and conversation context
+- LLM client abstraction
+- service layer architecture
+- Pydantic validation
+- FastAPI
+- multi-turn conversation history
+- configuration and environment variables
+- error handling
+- automated testing and mocking
+- Python packaging
+- Docker
+- GitHub Actions CI
+- simple browser-based chat interface
+
+Status: **Completed**
+
 ---
 
 ## Repository Philosophy
