@@ -6,14 +6,20 @@ from app.exceptions import LLMServiceError
 
 class LLMClient:
     def __init__(self):
-        self.client = OpenAI(
-            api_key=settings.openai_api_key
-        )
         self.model = settings.openai_model
 
     def generate(self, messages: list[dict[str, str]]) -> str:
+        if not settings.openai_api_key:
+            raise LLMServiceError(
+                "OPENAI_API_KEY is not configured."
+            )
+
         try:
-            response = self.client.responses.create(
+            client = OpenAI(
+                api_key=settings.openai_api_key
+            )
+
+            response = client.responses.create(
                 model=self.model,
                 input=messages,
             )
