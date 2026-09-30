@@ -1,12 +1,8 @@
-from dotenv import load_dotenv
-from fastapi import FastAPI
-
+from fastapi import FastAPI, HTTPException
 from app.clients.llm_client import LLMClient
 from app.models import ChatRequest, ChatResponse
 from app.services.chat_service import ChatService
-
-
-load_dotenv()
+from app.exceptions import LLMServiceError
 
 app = FastAPI(
     title="LLM Chat API",
@@ -23,9 +19,16 @@ def health():
 
 @app.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest) -> ChatResponse:
-    answer = chat_service.chat(
-        message=request.message,
-        history=request.history,
-    )
+    try:
+        answer = chat_service.chat(
+            message=request.message,
+            history=request.history,
+        )
 
-    return ChatResponse(answer=answer)
+        return ChatResponse(answer=answer)
+
+    except LLMServiceError:
+        raise HTTPException(
+            status_code=503,
+            detail="The AI service is temporarily unavailable.",
+        )
