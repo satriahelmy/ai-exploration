@@ -1,19 +1,22 @@
+from pathlib import Path
+from tempfile import NamedTemporaryFile
+import shutil
+
 from dotenv import load_dotenv
+from fastapi import FastAPI, File, HTTPException, UploadFile
 
 from app.clients.embedding_client import EmbeddingClient
 from app.clients.llm_client import LLMClient
+from app.exceptions import (
+    DocumentProcessingError,
+    LLMServiceError,
+    VectorStoreError,
+)
 from app.models import AskRequest, AskResponse
 from app.repositories.vector_repository import VectorRepository
+from app.services.ingestion_service import IngestionService
 from app.services.rag_service import RAGService
 from app.services.retrieval_service import RetrievalService
-
-import shutil
-from pathlib import Path
-from tempfile import NamedTemporaryFile
-
-from fastapi import FastAPI, File, HTTPException, UploadFile
-
-from app.services.ingestion_service import IngestionService
 
 
 load_dotenv()
@@ -24,6 +27,8 @@ app = FastAPI(
     version="0.1.0",
 )
 
+
+# Dependencies
 embedding_client = EmbeddingClient()
 
 vector_repository = VectorRepository()
@@ -51,19 +56,34 @@ def health():
     return {"status": "ok"}
 
 
-@app.post(
-    "/ask",
-    response_model=AskResponse,
-)
+@app.post("/ask", response_model=AskResponse)
 def ask(request: AskRequest):
-    answer = rag_service.ask(request.question)
+    try:
+        answer = rag_service.ask(
+            request.question
+        )
 
-    return AskResponse(
-        answer=answer,
-    )
+        return AskResponse(
+            answer=answer
+        )
+
+    except VectorStoreError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail=str(exc),
+        ) from exc
+
+    except LLMServiceError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail=str(exc),
+        ) from exc
+
 
 @app.post("/documents")
-def upload_document(file: UploadFile = File(...)):
+def upload_document(
+    file: UploadFile = File(...)
+):
     if file.content_type != "application/pdf":
         raise HTTPException(
             status_code=400,
@@ -83,14 +103,31 @@ def upload_document(file: UploadFile = File(...)):
 
     try:
         # Preserve the original filename for metadata
-        original_name_path = temp_path.with_name(file.filename)
-        temp_path.rename(original_name_path)
+        original_name_path = temp_path.with_name(
+            file.filename
+        )
+
+        temp_path.rename(
+            original_name_path
+        )
 
         result = ingestion_service.ingest(
             original_name_path
         )
 
         return result
+
+    except DocumentProcessingError as exc:
+        raise HTTPException(
+            status_code=400,
+            detail=str(exc),
+        ) from exc
+
+    except VectorStoreError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail=str(exc),
+        ) from exc
 
     finally:
         if "original_name_path" in locals():
@@ -102,17 +139,35 @@ def upload_document(file: UploadFile = File(...)):
             missing_ok=True
         )
 
+
 @app.get("/documents")
 def get_documents():
-    return vector_repository.list_documents()
+    try:
+        return vector_repository.list_documents()
+
+    except VectorStoreError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail=str(exc),
+        ) from exc
+
 
 @app.delete("/documents/{document_id}")
-def delete_document(document_id: str):
-    vector_repository.delete_document(
-        document_id
-    )
+def delete_document(
+    document_id: str
+):
+    try:
+        vector_repository.delete_document(
+            document_id
+        )
 
-    return {
-        "status": "deleted",
-        "document_id": document_id,
-    }
+        return {
+            "status": "deleted",
+            "document_id": document_id,
+        }
+
+    except VectorStoreError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail=str(exc),
+        ) from exc

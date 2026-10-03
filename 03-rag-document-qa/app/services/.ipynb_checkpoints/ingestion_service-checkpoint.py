@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 from pypdf import PdfReader
+from app.exceptions import DocumentProcessingError
 
 
 class IngestionService:
@@ -16,19 +17,37 @@ class IngestionService:
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
 
-    def extract_pages(self, pdf_path):
-        reader = PdfReader(pdf_path)
-
-        return [
-            {
-                "page": page_number,
-                "text": page.extract_text(),
-            }
-            for page_number, page in enumerate(
-                reader.pages,
-                start=1,
-            )
-        ]
+    def extract_pages(self, file_path):
+        try:
+            reader = PdfReader(file_path)
+    
+            pages = []
+    
+            for page_number, page in enumerate(reader.pages, start=1):
+                text = page.extract_text()
+    
+                if text:
+                    pages.append(
+                        {
+                            "page": page_number,
+                            "text": text,
+                        }
+                    )
+    
+            if not pages:
+                raise DocumentProcessingError(
+                    "No extractable text found in the PDF."
+                )
+    
+            return pages
+    
+        except DocumentProcessingError:
+            raise
+    
+        except Exception as exc:
+            raise DocumentProcessingError(
+                "Failed to process the PDF document."
+            ) from exc
 
     def chunk_text(self, text):
         chunks = []

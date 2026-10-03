@@ -18,3 +18,8 @@ venv/
 # IDE
 .vscode/
 .idea/
+
+/.ipynb_checkpoints
+/.pytest_cache
+/__pycache__
+/app/.ipynb_checkpoints/*
