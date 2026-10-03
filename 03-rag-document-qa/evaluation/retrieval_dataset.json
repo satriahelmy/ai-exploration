@@ -1,0 +1,22 @@
+[
+  {
+    "question": "How many days of annual leave do employees receive?",
+    "expected_filename": "sample_employee_handbook.pdf",
+    "expected_page": 2
+  },
+  {
+    "question": "How many days of paid sick leave do employees receive?",
+    "expected_filename": "sample_employee_handbook.pdf",
+    "expected_page": 3
+  },
+  {
+    "question": "What should an employee do if a company laptop is lost?",
+    "expected_filename": "sample_it_security_policy.pdf",
+    "expected_page": 3
+  },
+  {
+    "question": "When must company equipment be returned?",
+    "expected_filename": "sample_it_security_policy.pdf",
+    "expected_page": 6
+  }
+]
