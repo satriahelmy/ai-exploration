@@ -17,7 +17,7 @@ from app.repositories.vector_repository import VectorRepository
 from app.services.ingestion_service import IngestionService
 from app.services.rag_service import RAGService
 from app.services.retrieval_service import RetrievalService
-
+from app.config import settings
 
 load_dotenv()
 
@@ -36,6 +36,8 @@ vector_repository = VectorRepository()
 ingestion_service = IngestionService(
     embedding_client=embedding_client,
     vector_repository=vector_repository,
+    chunk_size=settings.CHUNK_SIZE,
+    chunk_overlap=settings.CHUNK_OVERLAP,
 )
 
 retrieval_service = RetrievalService(

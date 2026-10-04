@@ -1,9 +1,13 @@
 from sentence_transformers import SentenceTransformer
 
+from app.config import settings
+
 
 class EmbeddingClient:
-    def __init__(self, model_name="all-MiniLM-L6-v2"):
-        self.model = SentenceTransformer(model_name)
+    def __init__(self):
+        self.model = SentenceTransformer(
+            settings.EMBEDDING_MODEL
+        )
 
     def embed(self, texts):
         return self.model.encode(
@@ -12,7 +16,4 @@ class EmbeddingClient:
         )
 
     def embed_query(self, query):
-        return self.model.encode(
-            query,
-            normalize_embeddings=True,
-        )
+        return self.embed([query])[0]

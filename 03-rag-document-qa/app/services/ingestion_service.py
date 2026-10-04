@@ -3,6 +3,8 @@ from uuid import uuid4
 from pypdf import PdfReader
 from app.exceptions import DocumentProcessingError
 
+from app.config import settings
+
 
 class IngestionService:
     def __init__(

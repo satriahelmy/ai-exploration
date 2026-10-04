@@ -2,27 +2,28 @@ from uuid import uuid4
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import (
+    Distance,
     FieldCondition,
     Filter,
     MatchValue,
     PointStruct,
+    VectorParams,
 )
 
 from app.exceptions import VectorStoreError
 
+from app.config import settings
 
 class VectorRepository:
-    def __init__(
-        self,
-        host="localhost",
-        port=6333,
-        collection_name="rag_documents",
-    ):
+    def __init__(self):
         self.client = QdrantClient(
-            host=host,
-            port=port,
+            host=settings.QDRANT_HOST,
+            port=settings.QDRANT_PORT,
         )
-        self.collection_name = collection_name
+    
+        self.collection_name = settings.QDRANT_COLLECTION
+    
+        self._ensure_collection()
 
     def add_chunks(self, chunks, embeddings):
         try:
@@ -138,4 +139,21 @@ class VectorRepository:
         except Exception as exc:
             raise VectorStoreError(
                 "Failed to list documents from the vector store."
+            ) from exc
+    def _ensure_collection(self):
+        try:
+            if not self.client.collection_exists(
+                self.collection_name
+            ):
+                self.client.create_collection(
+                    collection_name=self.collection_name,
+                    vectors_config=VectorParams(
+                        size=384,
+                        distance=Distance.COSINE,
+                    ),
+                )
+    
+        except Exception as exc:
+            raise VectorStoreError(
+                "Failed to initialize vector store."
             ) from exc

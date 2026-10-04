@@ -1,16 +1,17 @@
-import os
-
 from openai import OpenAI
 
+from app.config import settings
 from app.exceptions import LLMServiceError
-from app.exceptions import VectorStoreError
+
 
 class LLMClient:
     def __init__(self):
-        self.model = os.getenv("OPENAI_MODEL", "gpt-5.6")
-        self.client = OpenAI()
+        self.client = OpenAI(
+            api_key=settings.OPENAI_API_KEY
+        )
+        self.model = settings.OPENAI_MODEL
 
-    def generate(self, prompt: str) -> str:
+    def generate(self, prompt):
         try:
             response = self.client.responses.create(
                 model=self.model,

@@ -1,0 +1,26 @@
+[project]
+name = "rag-document-qa"
+version = "0.1.0"
+description = "Multi-document RAG application built from scratch."
+requires-python = ">=3.11"
+
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+    "python-dotenv",
+    "python-multipart",
+    "openai",
+    "sentence-transformers",
+    "qdrant-client",
+    "pypdf",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "httpx",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
