@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Multi-Document RAG</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Multi-Document RAG</h1>
+        <p>Ask questions across your documents.</p>
+    </header>
+
+    <main>
+
+        <!-- Document Panel -->
+        <aside>
+            <h2>Documents</h2>
+
+            <div id="document-list">
+                <p>No documents loaded.</p>
+            </div>
+
+            <form id="upload-form">
+                <input
+                    type="file"
+                    id="file-input"
+                    accept=".pdf"
+                    required
+                >
+
+                <button type="submit">
+                    Upload PDF
+                </button>
+            </form>
+        </aside>
+
+
+        <!-- Chat Panel -->
+        <section>
+            <div id="chat-messages">
+                <div class="message assistant">
+                    <p>
+                        Upload documents and ask a question about them.
+                    </p>
+                </div>
+            </div>
+
+            <form id="question-form">
+
+                <input
+                    type="text"
+                    id="question-input"
+                    placeholder="Ask a question..."
+                    autocomplete="off"
+                    required
+                >
+
+                <button type="submit">
+                    Ask
+                </button>
+
+            </form>
+        </section>
+
+    </main>
+
+    <script src="/static/app.js"></script>
+
+</body>
+</html>

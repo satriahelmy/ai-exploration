@@ -19,12 +19,26 @@ from app.services.rag_service import RAGService
 from app.services.retrieval_service import RetrievalService
 from app.config import settings
 
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from fastapi import Request
+
 load_dotenv()
 
 
 app = FastAPI(
     title="Multi-Document RAG API",
     version="0.1.0",
+)
+
+app.mount(
+    "/static",
+    StaticFiles(directory="app/static"),
+    name="static",
+)
+
+templates = Jinja2Templates(
+    directory="app/templates"
 )
 
 
@@ -52,6 +66,12 @@ rag_service = RAGService(
     llm_client=llm_client,
 )
 
+@app.get("/")
+def home(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html",
+    )
 
 @app.get("/health")
 def health():

@@ -11,8 +11,8 @@ Multiple PDFs
 → Text Extraction
 → Chunking
 → Embeddings
-→ Vector Search
-→ Retrieval
+→ Vector Database
+→ Semantic Retrieval
 → Relevant Context
 → LLM
 → Grounded Answer + Sources
@@ -22,71 +22,45 @@ Multiple PDFs
 # Milestone A — Retrieval Fundamentals
 
 - [x] 01. PDF Text Extraction
-- [ ] 02. Document Chunking
-- [ ] 03. Embeddings
-- [ ] 04. Cosine Similarity
-- [ ] 05. Semantic Search
+- [x] 02. Document Chunking
+- [x] 03. Embeddings
+- [x] 04. Cosine Similarity
+- [x] 05. Semantic Search
 
 # Milestone B — Basic RAG
 
-- [ ] 06. FAISS Vector Index
-- [ ] 07. Retrieval Pipeline
-- [ ] 08. RAG Generation
-- [ ] 09. Grounded Prompting
-- [ ] 10. Source Attribution
+- [x] 06. FAISS Vector Index
+- [x] 07. Retrieval Pipeline
+- [x] 08. RAG Generation
+- [x] 09. Grounded Prompting
+- [x] 10. Source Attribution
 
 # Milestone C — Vector Database
 
-- [ ] 11. Qdrant
+- [x] 11. Qdrant
 
 # Milestone D — Multi-Document
 
-- [ ] 12. Multi-PDF Ingestion
-- [ ] 13. Cross-Document Retrieval
-- [ ] 14. Document Management
+- [x] 12. Multi-PDF Ingestion
+- [x] 13. Cross-Document Retrieval
+- [x] 14. Document Management
 
 # Milestone E — Application Engineering
 
-- [ ] 15. RAG Service Architecture
-- [ ] 16. FastAPI
-- [ ] 17. PDF Upload
+- [x] 15. RAG Service Architecture
+- [x] 16. FastAPI
+- [x] 17. PDF Upload
 
 # Milestone F — Quality
 
-- [ ] 18. Testing & Mocking
-- [ ] 19. RAG Evaluation
-- [ ] 20. Error Handling
-- [ ] 21. Configuration & Packaging
+- [x] 18. Testing & Mocking
+- [x] 19. RAG Evaluation
+- [x] 20. Error Handling
+- [x] 21. Configuration & Packaging
 
 # Milestone G — Shipping
 
-- [ ] 22. Docker Compose
-- [ ] 23. GitHub Actions CI
-- [ ] 24. Simple Web UI
-- [ ] 25. Final Documentation
-
----
-
-## Step 01 — PDF Text Extraction
-
-### Goal
-
-Convert a PDF document into text that can be processed by Python while
-preserving page information.
-
-### What We Built
-
-Used `pypdf` to:
-
-1. open a text-based PDF
-2. iterate through its pages
-3. extract text from each page
-4. preserve the page number
-
-### Current Representation
-
-```python
-{
-    "page": 1,
-    "text": "..."
-}
+- [x] 22. Docker Compose
+- [x] 23. GitHub Actions CI
+- [x] 24. Simple Web UI
+- [x] 25. Final Documentation

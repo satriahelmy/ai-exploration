@@ -1,0 +1,145 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f7f7f8;
+    color: #202123;
+}
+
+header {
+    height: 90px;
+    padding: 20px 32px;
+    background: white;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+header h1 {
+    margin: 0 0 6px;
+    font-size: 22px;
+}
+
+header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    height: calc(100vh - 90px);
+}
+
+aside {
+    padding: 24px;
+    background: white;
+    border-right: 1px solid #e5e5e5;
+    overflow-y: auto;
+}
+
+aside h2 {
+    margin-top: 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+}
+
+#document-list {
+    margin: 20px 0;
+}
+
+#document-list p {
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+#upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+button {
+    border: 0;
+    border-radius: 6px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#upload-form button {
+    background: #202123;
+    color: white;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+#chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px;
+}
+
+.message {
+    max-width: 720px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.message.user {
+    margin-left: auto;
+    background: #e9e9eb;
+    padding: 10px 14px;
+    border-radius: 12px;
+}
+
+.message.assistant {
+    margin-right: auto;
+}
+
+#question-form {
+    display: flex;
+    gap: 10px;
+    padding: 20px 32px;
+    background: white;
+    border-top: 1px solid #e5e5e5;
+}
+
+#question-input {
+    flex: 1;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+}
+
+#question-input:focus {
+    border-color: #6b7280;
+}
+
+#question-form button {
+    background: #202123;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+@media (max-width: 700px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    aside {
+        display: none;
+    }
+}
