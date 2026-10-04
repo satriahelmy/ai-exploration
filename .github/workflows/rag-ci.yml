@@ -1,8 +1,14 @@
-name: CI
+name: RAG CI
 
 on:
   push:
+    paths:
+      - "03-rag-document-qa/**"
+      - ".github/workflows/rag-ci.yml"
   pull_request:
+    paths:
+      - "03-rag-document-qa/**"
+      - ".github/workflows/rag-ci.yml"
 
 jobs:
   test:
@@ -18,7 +24,9 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
+        working-directory: 03-rag-document-qa
         run: pip install ".[dev]"
 
       - name: Run tests
+        working-directory: 03-rag-document-qa
         run: python -m pytest
