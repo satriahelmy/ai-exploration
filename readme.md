@@ -57,8 +57,38 @@ Status: **Completed**
 
 ---
 
-## Repository Philosophy
+### 03 — Multi-Document RAG from Scratch
 
-Each project is designed around a small number of concepts and built incrementally.
+A multi-document Retrieval-Augmented Generation system built from first principles without using high-level RAG frameworks.
 
-The goal is not to create production-scale systems immediately, but to understand why each engineering layer exists and gradually combine those layers into more capable AI systems.
+The project starts with the fundamentals of embeddings and semantic search, then progressively builds a complete document question-answering application using Qdrant, FastAPI, and OpenAI.
+
+**Topics explored:**
+
+- PDF text extraction and chunking
+- embeddings with Sentence Transformers
+- cosine similarity and semantic search
+- vector search with FAISS
+- vector databases with Qdrant
+- retrieval pipelines
+- grounded LLM generation
+- source attribution
+- multi-document retrieval
+- document ingestion and management
+- service-oriented RAG architecture
+- FastAPI
+- PDF upload
+- automated testing and mocking
+- retrieval evaluation with Hit@K and MRR
+- error handling
+- configuration and Python packaging
+- Docker Compose
+- GitHub Actions CI
+- simple browser-based RAG interface
+
+**Retrieval evaluation:**
+
+- Hit@3: **100%**
+- MRR: **0.875**
+
+Status: **Completed**
