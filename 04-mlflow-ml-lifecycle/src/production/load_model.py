@@ -1,12 +1,19 @@
+import os
+
 import mlflow
 import mlflow.sklearn
 
 from src.production.config import PREDICTION_THRESHOLD
 
 
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
+MLFLOW_TRACKING_URI = os.getenv(
+    "MLFLOW_TRACKING_URI",
+    "http://127.0.0.1:5000",
+)
 
 MODEL_URI = "models:/telco-churn-model@champion"
+
+mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
 
 
 def load_production_model():
